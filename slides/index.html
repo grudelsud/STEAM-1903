@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/sky.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <style type="text/css">
+      .reveal img.blended {
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+      .invert {
+        color: white;
+      }
+    </style>
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <p>STEAM week 03.2019</p>
+          <p>Y5 @ <a href="http://www.ashmountprimaryschool.co.uk/">Ashmount Primary School</a></p>
+          <h1>Hello!</h1>
+          <p>I'm Ben's dad (Y2G), my name is Tom</p>
+        </section>
+        <section>
+          <section>We're going to take a journey around the world...</section>
+          <section>and we'll never leave the borders of our browser.</section>
+          <section>
+            <p>This is dedicated to my friend Jacqui Kenny,</p>
+            <p><a href="https://www.theagoraphobictraveller.com/">The Agoraphobic Traveller</a></p>
+          </section>
+          <section>
+              <iframe
+                width="800" height="450"
+                src="https://www.youtube.com/embed/pSJoP0LR8CQ"
+                frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h4>How does a journey start?</h4>
+            <p class="fragment">Usually with a map...</p>
+            <p class="fragment">and a bit of planning.</p>
+          </section>
+          <section>
+              <h4>With a bit of Google Maps help</h4>
+              <img width="800" class="blended" src="img/01_london.png">
+          </section>
+          <section>
+              <h4>Search for Paris</h4>
+              <img width="800" class="blended" src="img/02_paris.png">
+          </section>
+          <section>
+              <h4>Look for directions</h4>
+              <img width="800" class="blended" src="img/03_london2paris.png">
+          </section>
+          <section>
+              <h4>Buy a flight, now go pack your bag!</h4>
+              <img width="800" class="blended" src="img/04_flight.png">
+          </section>
+          <section>
+            <p>OK, but how does it actually work?</p>
+          </section>
+          <section class="invert" data-background="img/bg_code.jpg">
+            <p class="fragment">it is code that runs in our browsers</p>
+            <p class="fragment">written in a programming language called Javascript</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h4>What is a web browser?</h4>
+            <p class="fragment">A web browser is a software used to retrieve and present information from the World Wide Web</p>
+          </section>
+          <section>
+            <h4>What is a programming language?</h4>
+            <p class="fragment">a programming language is a "formal" language that can be used to execute instructions to generate an output</p>
+          </section>
+          <section>
+            <h4>What is Javascript?</h4>
+            <p class="fragment">Javascript is a programming language that can be <strong>interpreted</strong> by most web browsers</p>
+          </section>
+          <section>
+            <h4>How does Javascript look like?</h4>
+            <pre><code class="hljs" data-trim contenteditable>
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 51.573522, lng: -0.124304},
+    zoom: 8
+  });
+}
+              </code></pre>
+          </section>
+          <section>
+            <iframe data-src="../maps/01/index.html" width="800" height="450" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen> </iframe>
+          </section>
+        </section>
+      </div>
+    </div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
