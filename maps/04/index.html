@@ -34,23 +34,46 @@
     <div id="info"></div>
     <div id="map"></div>
     <script>
-      let myLatLng = {lat: 51.573522, lng: -0.124304};
+      const ashmountLatLng = {lat: 51.573522, lng: -0.124304};
+      const deg2rad = function(deg) {
+        return (Math.PI * deg) / 180;
+      }
+      let haversine_distance = function(lat1deg, lng1deg, lat2deg, lng2deg) {
+        // https://www.movable-type.co.uk/scripts/latlong.html
+        const R = 6371e3; // metres
+        const φ1 = deg2rad(lat1deg);
+        const φ2 = deg2rad(lat2deg);
+        const Δφ = deg2rad(lat2deg - lat1deg);
+        const Δλ = deg2rad(lng2deg - lng1deg);
+
+        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        // returns rounded distance in km
+        return Math.round(R * c) / 1000;
+      }
       function initMap() {
         let map = new google.maps.Map(document.getElementById('map'), {
-          center: myLatLng,
+          center: ashmountLatLng,
           zoom: 8
         });
         let marker = new google.maps.Marker({
-          position: myLatLng,
+          position: ashmountLatLng,
           map: map,
           title: 'Ashmount Primary School'
         });
         map.addListener('click', function(e) {
-          // create a paragraph and fill it with date + coordinates
-          let p = document.createElement("p");
-          p.innerHTML = `click ${(new Date()).toISOString()} coords ${e.latLng}`;
+          // create a paragraph and fill it with distance + date
+          const p = document.createElement("p");
+          const now = (new Date()).toISOString();
+          const d = haversine_distance(
+            ashmountLatLng.lat, ashmountLatLng.lng,
+            e.latLng.lat(), e.latLng.lng());
+          p.innerHTML = `distance ${d} click ${now}`;
           // add the paragraph at the top of the "info" box on the page
-          let info = document.getElementById('info');
+          const info = document.getElementById('info');
           info.insertBefore(p, info.firstChild);
         });
       }

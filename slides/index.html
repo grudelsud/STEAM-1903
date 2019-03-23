@@ -131,7 +131,54 @@ center: {lat: 51.573522, lng: -0.124304},
               <img width="800" class="blended" src="img/05_lat_lng.jpg">
           </section>
         </section>
-      </div>
+        <section>
+          <section>
+            <h4>Maps can be interactive</h4>
+            <iframe data-src="../maps/02/index.html" width="800" height="450" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen> </iframe>
+          </section>
+          <section>
+            <pre><code class="hljs" data-trim contenteditable>
+map.addListener('click', function(e) {
+  // create a paragraph and fill it with date + coordinates
+  let p = document.createElement("p");
+  p.innerHTML = `click ${(new Date()).toISOString()} coords ${e.latLng}`;
+  // add the paragraph at the top of the "info" box on the page
+  let info = document.getElementById('info');
+  info.insertBefore(p, info.firstChild);
+});
+            </code></pre>
+          </section>
+          <section>
+            <p>now that we know the coordinates of the point we clicked...</p>
+            <p class="fragment">we can calculate the distance to Ashmount!</p>
+          </section>
+          <section>
+              <h4>Distance from Ashmount</h4>
+              <iframe data-src="../maps/03/index.html" width="800" height="450" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen> </iframe>
+            </section>
+            <section>
+              <pre><code class="hljs" data-trim contenteditable>
+map.addListener('click', function(e) {
+  // create a paragraph and fill it with distance + date
+  const p = document.createElement("p");
+  const now = (new Date()).toISOString();
+  const d = haversine_distance(
+    ashmountLatLng.lat, ashmountLatLng.lng,
+    e.latLng.lat(), e.latLng.lng());
+  p.innerHTML = `distance ${d} click ${now}`;
+  // add the paragraph at the top of the "info" box on the page
+  const info = document.getElementById('info');
+  info.insertBefore(p, info.firstChild);
+});
+              </code></pre>
+            </section>
+          </section>
+          <section>
+            <p>Now we have everything we need...</p>
+            <p class="fragment">for a treasure hunt!</p>
+            <p class="fragment">Let's go find where The Agoraphobic Traveller has gone.</p>
+          </section>
+        </div>
     </div>
 
 		<script src="lib/js/head.min.js"></script>
