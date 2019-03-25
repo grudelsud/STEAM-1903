@@ -15,7 +15,7 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 20%;
+        height: 40%;
         overflow-y: scroll;
         background-color: rgba(0, 0, 0, 0.5);
         color: #fff;
@@ -31,14 +31,68 @@
     </style>
   </head>
   <body>
-    <div id="info"></div>
+    <div id="info">
+      <p>Go and find the Agoraphobic Traveller. Click anywhere on the map to start the treasure hunt!</p>
+    </div>
     <div id="map"></div>
     <script>
-      const ashmountLatLng = {lat: 51.573522, lng: -0.124304};
+      let map = null;
+      let step = -1;
+      const cities = [
+        {
+          title: 'Paris',
+          lat: 48.854075,
+          lng: 2.348925,
+          img_next: 'th01paris.jpg',
+          msg: 'I want to see lights... the city of lighs!',
+        },
+        {
+          title: 'Dubai',
+          lat: 25.100836,
+          lng: 55.190082,
+          img_next: 'th02dubai.jpg',
+          msg: 'I was really cold in Paris, I want to find a warmer place',
+        },
+        {
+          title: 'Cairo',
+          lat: 30.039426,
+          lng: 31.232884,
+          img_next: 'th03cairo.jpg',
+          msg: 'Mh, what if I could find a place still warm, but with a bit of ancient history?',
+        },
+        {
+          title: 'Sydney',
+          lat: -33.871901,
+          lng: 151.210914,
+          img_next: 'th04sydney.jpg',
+          msg: 'I think I fancy watching an opera now...',
+        },
+        {
+          title: 'Rio de Janeiro',
+          lat: -22.935007,
+          lng: -43.227923,
+          img_next: 'th05rio.jpg',
+          msg: 'Now I would really like to see a carnival in the streets',
+        },
+        {
+          title: 'Shanghai',
+          lat: 31.050885,
+          lng: 121.355038,
+          img_next: 'th06shanghai.jpg',
+          msg: 'Getting really hungry now... Chinese, anyone?',
+        },
+        {
+          title: 'New York City',
+          lat: 40.772028,
+          lng: -73.971138,
+          img_next: 'th07nyc.jpg',
+          msg: 'All these new tall buildings, I am curious to see where it all started.',
+        },
+      ];
       const deg2rad = function(deg) {
         return (Math.PI * deg) / 180;
       }
-      let haversine_distance = function(lat1deg, lng1deg, lat2deg, lng2deg) {
+      const haversine_distance = function(lat1deg, lng1deg, lat2deg, lng2deg) {
         // https://www.movable-type.co.uk/scripts/latlong.html
         const R = 6371e3; // metres
         const φ1 = deg2rad(lat1deg);
@@ -54,31 +108,63 @@
         // returns rounded distance in km
         return Math.round(R * c) / 1000;
       }
+      const addMessage = function(msg, img) {
+        // create a paragraph and fill it with msg
+        const p = document.createElement("p");
+        const now = (new Date()).toISOString();
+        p.innerHTML = `[${now}] - ${msg}`;
+        // add the paragraph at the top of the "info" box on the page
+        const info = document.getElementById('info');
+        if (img !== null) {
+          const i = document.createElement('img');
+          i.setAttribute('src', `./img/${img}`);
+          info.insertBefore(i, info.firstChild);
+        }
+        info.insertBefore(p, info.firstChild);
+      }
+      const showNext = function() {
+        step++;
+        if (step == cities.length) {
+          addMessage("Congratulations! You found me!", 'th08jacqui.jpg');
+        } else {
+          addMessage(cities[step].msg, cities[step].img_next);
+        }
+      }
+      const treasureHunt = function(e) {
+        // have we finished?
+        if (step < cities.length) {
+          // have we started?
+          if (step < 0) {
+            showNext();
+          } else {
+            const city = cities[step];
+            // evaluate distance from click
+            const d = haversine_distance(city.lat, city.lng, e.latLng.lat(), e.latLng.lng());
+            // if distance < 30km add a marker and go ahead
+            if (d < 30) {
+              addMessage(`Very good! You were just ${d}km off`, null);
+              const marker = new google.maps.Marker({
+                position: { lat: city.lat, lng: city.lng },
+                map: map,
+                title: city.title,
+              });
+              showNext();
+            } else {
+              addMessage(`Not quite right! You are ${d}km off`, null);
+            }
+          }
+        }
+      }
       function initMap() {
-        let map = new google.maps.Map(document.getElementById('map'), {
+        const ashmountLatLng = {lat: 51.573522, lng: -0.124304};
+        map = new google.maps.Map(document.getElementById('map'), {
           center: ashmountLatLng,
           zoom: 8
         });
-        let marker = new google.maps.Marker({
-          position: ashmountLatLng,
-          map: map,
-          title: 'Ashmount Primary School'
-        });
-        map.addListener('click', function(e) {
-          // create a paragraph and fill it with distance + date
-          const p = document.createElement("p");
-          const now = (new Date()).toISOString();
-          const d = haversine_distance(
-            ashmountLatLng.lat, ashmountLatLng.lng,
-            e.latLng.lat(), e.latLng.lng());
-          p.innerHTML = `distance ${d} click ${now}`;
-          // add the paragraph at the top of the "info" box on the page
-          const info = document.getElementById('info');
-          info.insertBefore(p, info.firstChild);
-        });
+        map.addListener('click', treasureHunt);
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy6kq3lPfaRsITrc93v3TNikTt_6_u4Xc&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp7awcU3oWnpUa_heP3gra9VN3ISmrrHQ&callback=initMap"
     async defer></script>
   </body>
 </html>

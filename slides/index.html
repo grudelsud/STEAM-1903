@@ -37,8 +37,9 @@
         <section>
           <p>STEAM week 03.2019</p>
           <p>Y5 @ <a href="http://www.ashmountprimaryschool.co.uk/">Ashmount Primary School</a></p>
-          <h1>Hello!</h1>
-          <p>I'm Ben's dad (Y2G), my name is Tom</p>
+          <h2>Hello!</h2>
+          <p>I'm Ben's dad (Y2G), my name is Thomas.</p>
+          <p>Hit space to continue</p>
         </section>
         <section>
           <section>We're going to take a journey around the world...</section>
@@ -89,15 +90,15 @@
         <section>
           <section>
             <h4>What is a web browser?</h4>
-            <p class="fragment">A web browser is a software used to retrieve and present information from the World Wide Web</p>
+            <p class="fragment">A software used to retrieve and present information from the World Wide Web</p>
           </section>
           <section>
             <h4>What is a programming language?</h4>
-            <p class="fragment">a programming language is a "formal" language that can be used to execute instructions to generate an output</p>
+            <p class="fragment">A language that computers understand and use to execute instructions to generate an output</p>
           </section>
           <section>
             <h4>What is Javascript?</h4>
-            <p class="fragment">Javascript is a programming language that can be <strong>interpreted</strong> by most web browsers</p>
+            <p class="fragment">A programming language that can be <strong>interpreted</strong> by most web browsers</p>
           </section>
           <section>
             <h4>How does Javascript look like?</h4>
@@ -113,6 +114,7 @@ function initMap() {
           </section>
           <section>
             <h4>Here an example!</h4>
+            <p>this is a Google map, embedded in our page and centered on Ashmount Primary School</p>
             <iframe data-src="../maps/01/index.html" width="800" height="450" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen> </iframe>
           </section>
           <section>
@@ -134,9 +136,11 @@ center: {lat: 51.573522, lng: -0.124304},
         <section>
           <section>
             <h4>Maps can be interactive</h4>
+            <p>try and click anywhere on the map, you can also scroll to zoom and drag to pan</p>
             <iframe data-src="../maps/02/index.html" width="800" height="450" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen> </iframe>
           </section>
           <section>
+            <p>the map is interactive by adding an "event handler" in Javascript</p>
             <pre><code class="hljs" data-trim contenteditable>
 map.addListener('click', function(e) {
   // create a paragraph and fill it with date + coordinates
@@ -157,15 +161,14 @@ map.addListener('click', function(e) {
               <iframe data-src="../maps/03/index.html" width="800" height="450" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen> </iframe>
             </section>
             <section>
+              <p>we use the same event handler as before but we check the distance from ashmount using a function called <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine</a></p>
               <pre><code class="hljs" data-trim contenteditable>
 map.addListener('click', function(e) {
   // create a paragraph and fill it with distance + date
   const p = document.createElement("p");
   const now = (new Date()).toISOString();
-  const d = haversine_distance(
-    ashmountLatLng.lat, ashmountLatLng.lng,
-    e.latLng.lat(), e.latLng.lng());
-  p.innerHTML = `distance ${d} click ${now}`;
+  const d = haversine_distance(ashmountLatLng.lat, ashmountLatLng.lng, e.latLng.lat(), e.latLng.lng());
+  p.innerHTML = `distance ${d}km click ${now}`;
   // add the paragraph at the top of the "info" box on the page
   const info = document.getElementById('info');
   info.insertBefore(p, info.firstChild);
@@ -174,10 +177,50 @@ map.addListener('click', function(e) {
             </section>
           </section>
           <section>
-            <p>Now we have everything we need...</p>
-            <p class="fragment">for a treasure hunt!</p>
-            <p class="fragment">Let's go find where The Agoraphobic Traveller has gone.</p>
+            <section>
+              <p>Now we have everything we need...</p>
+              <p class="fragment">for a treasure hunt!</p>
+              <p class="fragment">Let's go find where The Agoraphobic Traveller has gone.</p>
+            </section>
+            <section>
+              <h4>A bit of theory first</h4>
+              <ol>
+                <li>create a list of cities with their coordinates</li>
+                <li>add a picture of each of them as a tip for the next city</li>
+                <li>check if clicks on the map are &lt; a fixed radius from next city</li>
+                <li>if so, proceed to the next clue</li>
+              </ol>
+            </section>
+            <section>
+                <h4>In Javascript</h4>
+                <pre><code class="hljs" data-trim contenteditable>
+if (step < cities.length) { // have we finished?
+  if (step < 0) { // have we started?
+    showNext();
+  } else {
+    const city = cities[step];
+    // evaluate distance from click
+    const d = haversine_distance(city.lat, city.lng, click.lat(), click.lng());
+    if (d < 30) { // if distance < 30km go ahead
+      addMessage(`Very good! You were just ${d}km off`, null);
+      showNext();
+    } else {
+      addMessage(`Not quite right! You are ${d}km off`, null);
+    }
+  }
+}
+            </code></pre>
+            </section>
+            <section>
+              <h4>This is an Algorithm!</h4>
+              <p>An informal definition could be "a set of rules that precisely defines a sequence of operations". - <a href="https://en.wikipedia.org/wiki/Algorithm">Wiki</a></p>
+            </section>
           </section>
+          <section>
+              <h4>Time to play!</h4>
+              <p>open the <a href="../maps/04/index.html" target="_blank">treasure hunt</a> in a separate window</p>
+              <iframe data-src="../maps/04/index.html" width="800" height="450" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen> </iframe>
+            </section>
         </div>
     </div>
 

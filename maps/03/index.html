@@ -71,14 +71,14 @@
           const d = haversine_distance(
             ashmountLatLng.lat, ashmountLatLng.lng,
             e.latLng.lat(), e.latLng.lng());
-          p.innerHTML = `distance ${d} click ${now}`;
+          p.innerHTML = `distance ${d}km click ${now}`;
           // add the paragraph at the top of the "info" box on the page
           const info = document.getElementById('info');
           info.insertBefore(p, info.firstChild);
         });
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy6kq3lPfaRsITrc93v3TNikTt_6_u4Xc&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp7awcU3oWnpUa_heP3gra9VN3ISmrrHQ&callback=initMap"
     async defer></script>
   </body>
 </html>
